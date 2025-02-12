@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class LoginController extends GetxController {
-  TextEditingController emailC = TextEditingController(text: "admin@gmail.com");
-  TextEditingController passwordC = TextEditingController(text: "admin123");
+  TextEditingController emailC = TextEditingController(text: "ilhambashthotan123@gmail.com");
+  TextEditingController passwordC = TextEditingController(text: "ilhambashthotan");
 
   @override
   void onClose() {

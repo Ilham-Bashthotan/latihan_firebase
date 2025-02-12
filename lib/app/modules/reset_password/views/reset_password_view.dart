@@ -4,18 +4,17 @@ import 'package:get/get.dart';
 import 'package:latihan_firebase/app/controllers/auth_controller.dart';
 import 'package:latihan_firebase/app/routes/app_pages.dart';
 
-import '../controllers/login_controller.dart';
+import '../controllers/reset_password_controller.dart';
 
-class LoginView extends GetView<LoginController> {
-  LoginView({super.key});
+class ResetPasswordView extends GetView<ResetPasswordController> {
+  ResetPasswordView({super.key});
 
   final authC = Get.find<AuthController>();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Login Screen'),
+        title: const Text('ResetPasswordView'),
         centerTitle: true,
       ),
       body: Padding(
@@ -28,36 +27,21 @@ class LoginView extends GetView<LoginController> {
                 labelText: 'Email',
               ),
             ),
-            TextField(
-              controller: controller.passwordC,
-              decoration: const InputDecoration(
-                labelText: 'Password',
-              ),
-            ),
             SizedBox(height: 20),
-            Align(
-              alignment: Alignment.centerRight,
-              child: TextButton(
-                onPressed: () {
-                  Get.toNamed(Routes.RESET_PASSWORD);
-                },
-                child: const Text('Forgot Password'),
-              ),
-            ),
-            SizedBox(height: 10),
             ElevatedButton(
-              onPressed: () => authC.login(
-                  controller.emailC.text, controller.passwordC.text),
-              child: const Text('Login'),
+              onPressed: () {
+                authC.resetPassword(controller.emailC.text);
+              },
+              child: const Text('Reser Password'),
             ),
             SizedBox(height: 10),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Text('Belum Punuya akun?'),
+                const Text('Sudah Punuya akun?'),
                 TextButton(
-                  onPressed: () => Get.toNamed(Routes.SINGUP),
-                  child: const Text('Sign Up'),
+                  onPressed: () => Get.toNamed(Routes.LOGIN),
+                  child: const Text('Login'),
                 ),
               ],
             )

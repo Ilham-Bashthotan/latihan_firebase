@@ -8,6 +8,49 @@ class AuthController extends GetxController {
 
   Stream<User?> get steramAuthStatus => auth.authStateChanges();
 
+  void resetPassword(String email) async {
+    if (email.isNotEmpty && GetUtils.isEmail(email)) {
+      try {
+        await auth.sendPasswordResetEmail(email: email);
+        Get.dialog(
+          AlertDialog(
+            title: Text('Reset Password'),
+            content: Text(
+                'We have sent you an email, please reset your password: $email'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Get.back();
+                  Get.back();
+                },
+                child: Text('Confirm'),
+              ),
+            ],
+          ),
+        );
+      } on FirebaseAuthException catch (e) {
+        String errorMessage = 'An error occurred. Please try again.';
+        if (e.code == 'user-not-found') {
+          errorMessage = 'No user found for that email.';
+          print('No user found for that email.');
+        }
+        Get.snackbar(
+          'Error',
+          errorMessage,
+          snackPosition: SnackPosition.BOTTOM,
+        );
+      } catch (e) {
+        print(e);
+      }
+    } else {
+      Get.snackbar(
+        'Error',
+        'Please enter your email',
+        snackPosition: SnackPosition.BOTTOM,
+      );
+    }
+  }
+
   void login(String email, String password) async {
     try {
       final UserCredential credential = await auth.signInWithEmailAndPassword(
@@ -28,8 +71,7 @@ class AuthController extends GetxController {
                 },
                 child: Text('No'),
                 style: TextButton.styleFrom(
-                  foregroundColor: Get.theme.colorScheme.secondary
-                ),
+                    foregroundColor: Get.theme.colorScheme.secondary),
               ),
               TextButton(
                 onPressed: () {
