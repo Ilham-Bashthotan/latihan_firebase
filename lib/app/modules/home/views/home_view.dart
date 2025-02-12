@@ -18,6 +18,16 @@ class HomeView extends GetView<HomeController> {
       appBar: AppBar(
         title: const Text('Home'),
         centerTitle: true,
+        leading: Obx(
+          () => Icon(
+            controller.networkService.isConnected.value
+                ? Icons.wifi
+                : Icons.wifi_off,
+            color: controller.networkService.isConnected.value
+                ? Colors.green
+                : Colors.red,
+          ),
+        ),
         actions: [
           IconButton(
             onPressed: () => authC.logout(),
@@ -30,6 +40,11 @@ class HomeView extends GetView<HomeController> {
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.active) {
             var listAllDocuments = snapshot.data!.docs;
+            if (listAllDocuments.isEmpty) {
+              return const Center(
+                child: Text('No data'),
+              );
+            }
             return ListView.builder(
               itemCount: listAllDocuments.length,
               itemBuilder: (context, index) => ListTile(
@@ -42,7 +57,8 @@ class HomeView extends GetView<HomeController> {
                 subtitle: Text(
                     'Rp ${(listAllDocuments[index].data() as Map<String, dynamic>)["price"]}'),
                 trailing: IconButton(
-                  onPressed: () => controller.deleteData(listAllDocuments[index].id),
+                  onPressed: () =>
+                      controller.deleteData(listAllDocuments[index].id),
                   icon: const Icon(Icons.delete),
                 ),
               ),

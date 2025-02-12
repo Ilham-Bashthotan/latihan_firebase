@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:latihan_firebase/app/controllers/auth_controller.dart';
+import 'package:latihan_firebase/app/services/network_services.dart';
 import 'package:latihan_firebase/app/utils/loading.dart';
 
 import 'app/routes/app_pages.dart';
@@ -14,6 +15,8 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  await Get.putAsync(() async => NetworkService());
+
   runApp(
     MyApp(),
   );

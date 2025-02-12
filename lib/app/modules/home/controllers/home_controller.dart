@@ -1,9 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:latihan_firebase/app/services/network_services.dart';
 
 class HomeController extends GetxController {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+  final networkService = Get.put(NetworkService());
 
   Future<QuerySnapshot<Object?>> getData() async {
     CollectionReference products = firestore.collection('products');
@@ -33,9 +36,18 @@ class HomeController extends GetxController {
               style: TextButton.styleFrom(),
             ),
             ElevatedButton(
-              onPressed: () async {
-                await products.delete();
+              onPressed: () {
+                String msg = '';
+                products.delete();
                 Get.back();
+                msg = networkService.isConnected.value
+                    ? 'Data deleted successfully'
+                    : 'Data deleted successfully, but you are offline';
+                Get.snackbar(
+                  'Success',
+                  msg,
+                  snackPosition: SnackPosition.BOTTOM,
+                );
               },
               child: const Text('OK'),
             ),
@@ -50,5 +62,9 @@ class HomeController extends GetxController {
         snackPosition: SnackPosition.BOTTOM,
       );
     }
+  }
+  @override
+  void onClose() {
+    super.onClose();
   }
 }
