@@ -6,9 +6,9 @@ class SingupController extends GetxController {
   TextEditingController passwordC= TextEditingController();
 
   @override
-  void dispose() {
+  void onClose() {
     emailC.dispose();
     passwordC.dispose();
-    super.dispose();
+    super.onClose();
   }
 }

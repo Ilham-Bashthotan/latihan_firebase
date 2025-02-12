@@ -6,10 +6,9 @@ class LoginController extends GetxController {
   TextEditingController passwordC = TextEditingController(text: "admin123");
 
   @override
-  void dispose() {
+  void onClose() {
     emailC.dispose();
     passwordC.dispose();
-    super.dispose();
+    super.onClose();
   }
-  
 }

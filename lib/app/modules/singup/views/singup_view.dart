@@ -47,7 +47,7 @@ class SingupView extends GetView<SingupController> {
                 const Text('Sudah Punuya akun?'),
                 TextButton(
                   onPressed: () => Get.back(),
-                  child: const Text('sign Up'),
+                  child: const Text('Login'),
                 ),
               ],
             )
